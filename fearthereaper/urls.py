@@ -25,5 +25,6 @@ urlpatterns = [
     path('login/', auth_views.login, {'template_name':'login.html'}, name='login'),
     path('signup/', views.signup, name='signup'),
     path('logout/', auth_views.logout, {'template_name':'logout.html'}, name='logout'),
+    path('week/<int:week_num>/', views.show_week, name='week'),
 
 ]

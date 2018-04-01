@@ -5,6 +5,17 @@
     <title></title>
   </head>
   <body>
-    <h1>Index Page</h1>
+    <h1>Here is an overview of your life!</h1>
+    {% if weeks %}
+    <ul>
+    {% for week in weeks %}
+      <li>
+        <a href="{% url 'week' week.week_num %}">{{ week.week_num }}</a>
+      </li>
+    {% endfor %}
+    </ul>
+    {% else %}
+        <p>No weeks available.</p>
+    {% endif %}
   </body>
 </html>

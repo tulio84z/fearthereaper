@@ -20,6 +20,8 @@ class Week(models.Model):
     FUTURE_WEEK_NO_OBJ = 'FWNO'
     FUTURE_WEEK_WITH_OBJ = 'FWWO'
 
+    DEATH = 'DEATH'
+
     WEEK_STATUSES = (
         (PAST_WEEK_BEFORE_SIGNUP, 'Past week before singup'),
         (PAST_WEEK_NO_OBJ, 'Past week no objective'),
@@ -32,10 +34,11 @@ class Week(models.Model):
 
         (FUTURE_WEEK_NO_OBJ, 'Future week no objective'),
         (FUTURE_WEEK_WITH_OBJ, 'Future week with objective'),
+        (DEATH, 'This is were you die!'),
     )
 
     week_status = models.CharField(
-        max_length=4,
+        max_length=5,
         choices=WEEK_STATUSES,
         blank=True,
     )

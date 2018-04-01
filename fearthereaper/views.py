@@ -10,7 +10,22 @@ from core.models import Week
 
 @login_required
 def index(request):
-    return render(request, 'index.html')
+    current_user = request.user
+
+    weeks = Week.objects.all()
+    context = {'weeks': weeks}
+
+    return render(request, 'index.html', context)
+
+@login_required
+def show_week(request, week_num):
+    current_user = request.user
+
+    week = Week.objects.get(week_num=week_num, user_id=current_user.id)
+    context = {'week': week}
+
+    return render(request, 'week.html', context)
+
 
 @transaction.atomic
 def signup(request):
@@ -47,7 +62,7 @@ def _initialize_life_span_info(user, life_span):
 
     current_week_num = calculate_current_week_num(user.birthday)
 
-    for week_num in range(1, life_span_in_weeks):
+    for week_num in range(1, life_span_in_weeks + 1):
         week = Week()
         week.user = user
         week.week_num = week_num
@@ -56,6 +71,8 @@ def _initialize_life_span_info(user, life_span):
             week.week_status = Week.PAST_WEEK_BEFORE_SIGNUP
         elif week_num == current_week_num:
             week.week_status = Week.CURRENT_WEEK_NO_OBJ
+        elif week_num == life_span_in_weeks:
+            week.week_status = Week.DEATH
         else:
             week.week_status = Week.FUTURE_WEEK_NO_OBJ
 
