@@ -1,6 +1,13 @@
 from django.db import models
 
+
+from authentication.models import User
+
 class Week(models.Model):
+
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    week_num = models.IntegerField(null=True)
+
     PAST_WEEK_BEFORE_SIGNUP = 'PWBS'
     PAST_WEEK_NO_OBJ = 'PWNO'
     PAST_WEEK_MISSED_OBJ = 'PWMO'

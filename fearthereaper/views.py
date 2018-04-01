@@ -1,14 +1,18 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, authenticate
+from django.db import transaction
 
 from .forms import SignUpForm
-from .lifeexpectancy import get_life_expectancy
+from .lifeexpectancy import get_life_expectancy, calculate_current_week_num
+from core.models import Week
+
 
 @login_required
 def index(request):
     return render(request, 'index.html')
 
+@transaction.atomic
 def signup(request):
 
     if request.method == 'POST':
@@ -26,9 +30,33 @@ def signup(request):
             raw_password = form.cleaned_data.get('password1')
             user = authenticate(username=user_name, password=raw_password)
             login(request, user)
-            user.life_expectancy = life_span
-            user.save()
+            _initialize_life_span_info(user, life_span)
             return redirect('index')
     else:
         form = SignUpForm()
     return render(request, 'signup.html', {'form': form})
+
+
+def _initialize_life_span_info(user, life_span):
+    user.life_expectancy = life_span
+
+    life_span_in_weeks = life_span * 52
+    user.life_in_weeks = life_span_in_weeks
+
+    user.save()
+
+    current_week_num = calculate_current_week_num(user.birthday)
+
+    for week_num in range(1, life_span_in_weeks):
+        week = Week()
+        week.user = user
+        week.week_num = week_num
+
+        if week_num < current_week_num:
+            week.week_status = Week.PAST_WEEK_BEFORE_SIGNUP
+        elif week_num == current_week_num:
+            week.week_status = Week.CURRENT_WEEK_NO_OBJ
+        else:
+            week.week_status = Week.FUTURE_WEEK_NO_OBJ
+
+        week.save()

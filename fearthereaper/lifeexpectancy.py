@@ -1,4 +1,5 @@
 import requests
+from datetime import datetime, timezone
 
 API_STRING="http://api.population.io:80/1.0/life-expectancy/total"
 
@@ -27,3 +28,12 @@ def _get_formated_country(country):
     formated_contry = country.strip()
     formated_contry = formated_contry.replace(" ","%20")
     return formated_contry
+
+def calculate_current_week_num(birthday):
+    now = datetime.now(timezone.utc)
+    print(type(birthday))
+    print(type(now))
+    difference = now - birthday
+    weeks, days = divmod(difference.days, 7)
+
+    return weeks

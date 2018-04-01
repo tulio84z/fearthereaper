@@ -5,6 +5,8 @@ from django.contrib.auth.models import AbstractUser
 class User(AbstractUser):
     birthday = models.DateTimeField(blank=False, null=True)
     life_expectancy = models.IntegerField(null=True)
+    life_in_weeks = models.IntegerField(null=True)
+
     GENDERS = (
         ('male', 'Male'),
         ('female', 'Female'),
