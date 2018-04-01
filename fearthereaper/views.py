@@ -2,10 +2,11 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, authenticate
 from django.db import transaction
+from django.forms import modelformset_factory
 
-from .forms import SignUpForm
+from .forms import SignUpForm, ObjectiveForm
 from .lifeexpectancy import get_life_expectancy, calculate_current_week_num
-from core.models import Week
+from core.models import Week, Objective
 
 
 @login_required
@@ -20,11 +21,19 @@ def index(request):
 @login_required
 def show_week(request, week_num):
     current_user = request.user
-
     week = Week.objects.get(week_num=week_num, user_id=current_user.id)
-    context = {'week': week}
 
-    return render(request, 'week.html', context)
+    WeekFormSet = modelformset_factory(Objective, fields=('objective_achieved', 'description'))
+
+    if request.method == "POST":
+        formset = WeekFormSet(request.POST)
+        instances = formset.save(commit=False)
+        for instance in instances:
+            instance.week_id=week.id
+            instance.save()
+    else:
+        formset = WeekFormSet(queryset=Objective.objects.filter(week_id=week.id))
+    return render(request, 'week.html', {'formset': formset})
 
 
 @transaction.atomic

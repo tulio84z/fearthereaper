@@ -1,6 +1,9 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
+from django.forms import ModelForm
+
 from authentication.models import User
+from core.models import Objective
 
 
 class SignUpForm(UserCreationForm):
@@ -11,3 +14,8 @@ class SignUpForm(UserCreationForm):
     class Meta:
         model = User
         fields = ('username','email', 'birthday', 'gender', 'nationality', 'password1', 'password2', )
+
+class ObjectiveForm(ModelForm):
+    class Meta:
+        model = Objective
+        fields = ['objective_achieved', 'description']

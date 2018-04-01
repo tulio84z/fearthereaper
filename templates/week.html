@@ -5,13 +5,11 @@
     <title></title>
   </head>
   <body>
-    <h1>Week nr..</h1>
-    {% if week %}
-      <h2>{{ week.week_num }}</h2>
-      <h2>{{ week.user_id }}</h2>
-      <h2>{{ week.week_status }}</h2>
-    {% else %}
-        <p>An error happened while trying to load the week</p>
-    {% endif %}
+    <h1>Week nr {{ week.week_num }}</h1>
+    <form method="POST">
+      {% csrf_token %}
+      {{ formset }}
+      <button type="submit">Submit </button>
+    </form>
   </body>
 </html>
