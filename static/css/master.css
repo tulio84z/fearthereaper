@@ -1,5 +1,5 @@
 .mycontent{
-  padding-top: 100px;
+  margin-top: 100px;
   border: 10px solid red;
 }
 
@@ -8,7 +8,11 @@ body {
   margin: 0;
   height: 100%;
   width: 100%;
-  background: #191063;
-  background-color: black;
+  background-color: gray;
   color:white;
+}
+
+table, td {
+    border: 1px solid black;
+    border-collapse: collapse;
 }
