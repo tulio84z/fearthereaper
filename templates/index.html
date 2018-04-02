@@ -6,14 +6,18 @@
   </head>
   <body>
     <h1>Here is an overview of your life!</h1>
-    {% if weeks %}
-    <ul>
-    {% for week in weeks %}
-      <li>
-        <a href="{% url 'week' week.week_num %}">{{ week.week_num }}</a>
-      </li>
-    {% endfor %}
-    </ul>
+    {% if week_list %}
+    <table>
+      {% for week_group in week_list %}
+        <tr>
+          {% for week in week_group %}
+          <td>
+            <a href="{% url 'week' week.week_num %}">{{ week.week_num }}</a>
+          </td>
+          {% endfor %}
+        </tr>
+      {% endfor %}
+    </table>
     {% else %}
         <p>No weeks available.</p>
     {% endif %}

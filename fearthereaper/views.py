@@ -14,7 +14,11 @@ def index(request):
     current_user = request.user
 
     weeks = Week.objects.all()
-    context = {'weeks': weeks}
+
+    week_group_size = 12
+    week_list = [weeks[x:x + week_group_size] for x in range(0,len(weeks), week_group_size)]
+
+    context = {'week_list': week_list}
 
     return render(request, 'index.html', context)
 
