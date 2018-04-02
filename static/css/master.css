@@ -1,0 +1,14 @@
+.mycontent{
+  padding-top: 100px;
+  border: 10px solid red;
+}
+
+html,
+body {
+  margin: 0;
+  height: 100%;
+  width: 100%;
+  background: #191063;
+  background-color: black;
+  color:white;
+}

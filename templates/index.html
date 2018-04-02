@@ -1,10 +1,6 @@
-<!DOCTYPE html>
-<html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <title></title>
-  </head>
-  <body>
+{% extends "base.html" %}
+{% block content %}
+  <div class="container">
     <h1>Here is an overview of your life!</h1>
     {% if week_list %}
     <table>
@@ -13,6 +9,7 @@
           {% for week in week_group %}
           <td>
             <a href="{% url 'week' week.week_num %}">{{ week.week_num }}</a>
+            <p>{{ week.week_status }}</p>
           </td>
           {% endfor %}
         </tr>
@@ -21,5 +18,5 @@
     {% else %}
         <p>No weeks available.</p>
     {% endif %}
-  </body>
-</html>
+  </div>
+{% endblock %}
