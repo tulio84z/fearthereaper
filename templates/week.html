@@ -1,9 +1,30 @@
 {% extends "base.html" %}
+{% load staticfiles %}
 {% block content %}
+  <script src="{% static 'js/jquery.formset.js' %}"></script>
   <h1>Week nr {{ week.week_num }}</h1>
   <form method="POST">
     {% csrf_token %}
-    {{ formset }}
-    <button type="submit">Submit </button>
+    <table class="table">
+        {% for form in formset %}
+        <tr class="formset_row">
+
+          {% for field in form.visible_fields%}
+          <td>
+            {{ field }}
+          </td>
+          {% endfor %}
+        </tr>
+        {% endfor %}
+    </table>
+    {{ formset.management_form }}
+    <button type="submit">Save </button>
+    <a href="{% url 'index' %}">back to the index</a>
   </form>
+  <script type="text/javascript">
+      $('.formset_row').formset({
+          addText: 'add objective',
+          deleteText: 'remove',
+      });
+  </script>
 {% endblock %}
