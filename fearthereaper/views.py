@@ -27,7 +27,7 @@ def show_week(request, week_num):
     current_user = request.user
     week = Week.objects.get(week_num=week_num, user_id=current_user.id)
 
-    WeekFormSet = modelformset_factory(Objective, fields=('objective_achieved', 'description'), extra=0)
+    WeekFormSet = modelformset_factory(Objective, fields=('objective_achieved', 'description'), extra=1)
 
     if request.method == "POST":
         formset = WeekFormSet(request.POST)
