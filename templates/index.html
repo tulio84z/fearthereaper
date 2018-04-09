@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
+{% load week_type %}
   <div class="container">
     <h1>Here is an overview of your life!</h1>
     {% if week_list %}
@@ -8,8 +9,12 @@
         <tr>
           {% for week in week_group %}
           <td>
-            <a href="{% url 'week' week.week_num %}">{{ week.week_num }}</a>
-            <p>{{ week.week_status }}</p>
+            <div class="">
+              <a class="{{ week.week_status | weekbtn }} weekbtn" href="{% url 'week' week.week_num %}">{{ week.week_num }}
+                <br>
+                <span>{{ week.week_status }}</span>
+              </a>
+            </div>
           </td>
           {% endfor %}
         </tr>
