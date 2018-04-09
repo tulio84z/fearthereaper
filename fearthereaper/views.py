@@ -10,6 +10,10 @@ from core.models import Week, Objective
 
 
 @login_required
+def root(request):
+    return redirect('index')
+
+@login_required
 def index(request):
     current_user = request.user
 

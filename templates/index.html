@@ -1,10 +1,9 @@
 {% extends "base.html" %}
 {% block content %}
 {% load week_type %}
-  <div class="container">
-    <h1>Here is an overview of your life!</h1>
+  <div class="container" >
     {% if week_list %}
-    <table>
+    <table style="margin: auto;">
       {% for week_group in week_list %}
         <tr>
           {% for week in week_group %}
