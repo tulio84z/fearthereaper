@@ -35,10 +35,12 @@ def show_week(request, week_num):
 
     if request.method == "POST":
         formset = WeekFormSet(request.POST)
-        instances = formset.save(commit=False)
-        for instance in instances:
-            instance.week_id=week.id
-            instance.save()
+        objectives = formset.save(commit=False)
+        for objective in objectives:
+            objective.week_id=week.id
+            print("ACHIEVED={}".format(objective.objective_achieved))
+            objective.save()
+        week.save()
     else:
         formset = WeekFormSet(queryset=Objective.objects.filter(week_id=week.id))
     return render(request, 'week.html', {'formset': formset})

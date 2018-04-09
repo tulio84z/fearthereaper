@@ -42,6 +42,28 @@ class Week(models.Model):
         choices=WEEK_STATUSES,
         blank=True,
     )
+    def save(self, *args, **kwargs):
+        objectives = self.objective_set.all()
+        print(len(objectives))
+        has_objectives = True if len(objectives) > 0 else False
+        all_achieved = False
+
+        for objective in objectives:
+            all_achieved = objective.objective_achieved
+
+        print("All achieved{}".format(all_achieved))
+        if self.week_status == Week.CURRENT_WEEK_NO_OBJ:
+            if has_objectives:
+                print("has objectives")
+                self.week_status = Week.CURRENT_WEEK_WITH_OBJ
+
+        if self.week_status == Week.CURRENT_WEEK_WITH_OBJ:
+            print(Week.CURRENT_WEEK_WITH_OBJ)
+            if all_achieved:
+                print("SETTING TO CWOA!!")
+                self.week_status = Week.CURRENT_WEEK_OBJ_ACHIEVED
+
+        super(Week, self).save(*args, **kwargs)
 
 class Objective(models.Model):
     week = models.ForeignKey(Week, on_delete=models.CASCADE)
